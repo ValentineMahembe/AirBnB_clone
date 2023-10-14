@@ -4,12 +4,13 @@
 import cmd
 import json
 from models.base_model import BaseModel
+from models.user import User # import User class
 from models import storage
 
 class HBNBCommand(cmd.Cmd):
     """This class represents a command interpreter for the HBNB project"""
 
-    prompt = "(hbnb) "
+    prompt = "(hbnb) " # a custom prompt
 
     def do_quit(self, arg):
         """Quit command to exit the program"""
@@ -24,11 +25,11 @@ class HBNBCommand(cmd.Cmd):
         pass # do nothing
 
     def do_create(self, arg):
-        """Creates a new instance of BaseModel, saves it (to the JSON file)
-        and prints the id. Ex: $ create BaseModel"""
+        """Creates a new instance of BaseModel or User, saves it
+        (to the JSON file) and prints the id. Ex: $ create BaseModel"""
         if not arg:
             print("** class name missing **") # if the class name is missing
-        elif arg not in ["BaseModel"]: # you can add more valid class names here
+        elif arg not in ["BaseModel", "User"]: # add "User" to valid class names
             print("** class doesn't exist **") # if the class name doesn't exist
         else:
             obj = eval(arg)() # create a new instance of the class
@@ -36,12 +37,12 @@ class HBNBCommand(cmd.Cmd):
             print(obj.id) # print the id
 
     def do_show(self, arg):
-        """Prints the string representation of an instance based on th
-        e class name and id. Ex: $ show BaseModel 1234-1234-1234."""
+        """Prints the string representation of an instance based on the
+        class name and id. Ex: $ show BaseModel 1234-1234-1234."""
         args = arg.split() # split the arguments by space
         if not args:
             print("** class name missing **") # if the class name is missing
-        elif args[0] not in ["BaseModel"]: # you can add more valid class names here
+        elif args[0] not in ["BaseModel", "User"]: # add "User" to valid class names
             print("** class doesn't exist **") # if the class name doesn't exist
         elif len(args) == 1:
             print("** instance id missing **") # if the id is missing
@@ -53,12 +54,12 @@ class HBNBCommand(cmd.Cmd):
                 print(storage.all()[key]) # print the string representation of the object
 
     def do_destroy(self, arg):
-        """Deletes an instance based on the class name and id (save
-        the change into the JSON file). Ex: $ destroy BaseModel 1234-1234-1234."""
+        """Deletes an instance based on the class name and id (save the change
+        into the JSON file). Ex: $ destroy BaseModel 1234-1234-1234."""
         args = arg.split() # split the arguments by space
         if not args:
             print("** class name missing **") # if the class name is missing
-        elif args[0] not in ["BaseModel"]: # you can add more valid class names here
+        elif args[0] not in ["BaseModel", "User"]: # add "User" to valid class names
             print("** class doesn't exist **") # if the class name doesn't exist
         elif len(args) == 1:
             print("** instance id missing **") # if the id is missing
@@ -78,7 +79,7 @@ class HBNBCommand(cmd.Cmd):
         if not args: 
             for obj in storage.all().values(): 
                 result.append(obj.__str__()) # add all objects to result
-        elif args[0] not in ["BaseModel"]: # you can add more valid class names here
+        elif args[0] not in ["BaseModel", "User"]: # add "User" to valid class names
             print("** class doesn't exist **") # if the class name doesn't exist
             return 
         else: 
@@ -89,12 +90,15 @@ class HBNBCommand(cmd.Cmd):
         print(result) # print result as a list of strings
 
     def do_update(self, arg):
-        """Updates an instance based on the class name and id by adding or updating 
-        attribute (save the change into the JSON file)."""
+        """
+        Updates an instance based on the class name and id by adding or updating
+        attribute (save the change into the JSON file).
+        Example: $ update BaseModel 1234-1234-1234 email "aibnb@mail.com".
+        """
         args = arg.split() # split the arguments by space
         if not args:
             print("** class name missing **") # if the class name is missing
-        elif args[0] not in ["BaseModel"]: # you can add more valid class names here
+        elif args[0] not in ["BaseModel", "User"]: # add "User" to valid class names
             print("** class doesn't exist **") # if the class name doesn't exist
         elif len(args) == 1:
             print("** instance id missing **") # if the id is missing
@@ -113,7 +117,4 @@ class HBNBCommand(cmd.Cmd):
                 except:
                     value = args[3] # otherwise, use the value as a string
                 setattr(obj, args[2], value) # set or update the attribute with the value
-                obj.save() # save the change to the JSON file
-
-if __name__ == '__main__':
-    HBNBCommand().cmdloop()
+                obj.save() # save the change to the JSON
