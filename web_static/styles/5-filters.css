@@ -1,0 +1,26 @@
+.filters {
+    /* Your filters styles here */
+}
+
+.filters .locations,
+.filters .amenities {
+    height: 100%;
+    width: 25%;
+}
+
+.filters .locations {
+    border-right: 1px solid #DDDDDD;
+}
+
+.filters h3 {
+    font-weight: 600;
+}
+
+.filters h4 {
+    font-weight: 400;
+    font-size: 14px;
+}
+
+.filters button {
+    /* Your button styles here */
+}
